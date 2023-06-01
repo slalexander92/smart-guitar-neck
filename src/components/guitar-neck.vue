@@ -124,9 +124,13 @@
 		const activeScaleDegrees = scaleDegreeMap[selectedScale.value];
 
 		return (scale || []).reduce((accum, val, index) => {
+			const degree = index === 0
+				? 'R'
+				: activeScaleDegrees[index];
+
 			accum.push({
 				note: activeScale.value[index],
-				degree: activeScaleDegrees[index],
+				degree,
 				value: true,
 			});
 
