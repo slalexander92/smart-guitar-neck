@@ -1,6 +1,6 @@
 # smart-guitar-neck
 
-This template should help get you started developing with Vue 3 in Vite.
+A project to help you memorize your guitar neck positions.
 
 ## Recommended IDE Setup
 
