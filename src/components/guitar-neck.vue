@@ -238,7 +238,6 @@
 	.string {
 		position: relative;
 		display: flex;
-		padding-bottom: 2px;
 
 		&::after {
 			content: '';
@@ -260,6 +259,7 @@
 		height: 100%;
 		padding-left: 12px;
 		padding-right: 12px;
+		padding-bottom: 2px;
 
 		&.should-add-dot {
 			&::before {
