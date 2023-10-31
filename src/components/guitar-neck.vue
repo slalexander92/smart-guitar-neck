@@ -186,7 +186,7 @@
 	}
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 	$blue: #0e31a9;
 	$red: #d40606;
 
