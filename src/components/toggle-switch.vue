@@ -40,7 +40,7 @@
 		width: 32px;
 		height: $switch-size;
 		border-radius: $switch-size;
-		background: #6f6f6f;
+		background: #c8c8c8;
 		cursor: pointer;
 		user-select: none;
 	}
