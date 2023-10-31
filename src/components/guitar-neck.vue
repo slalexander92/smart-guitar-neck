@@ -97,9 +97,7 @@
 	const selectedStringFilter = ref('none');
 
 	const activeTuning = computed(() => tunings.standard);
-
 	const activeScale = computed(() => scaleList.value[selectedScale.value]);
-
 	const activeStringFilter = computed(() => stringFilterList[selectedStringFilter.value]);
 
 	const scaleList = computed(() => {
@@ -135,7 +133,7 @@
 			});
 
 			return accum;
-		}, [])
+		}, []);
 	}
 
 	watch(activeScale, scale => {
