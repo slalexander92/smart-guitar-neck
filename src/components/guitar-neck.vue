@@ -26,7 +26,7 @@
 							'is-filtered': isNoteFiltered(note),
 						}]"
 					>
-						{{ note.toUpperCase() }}
+						{{ shouldShowScaleDegrees ? scaleDegreeFilter(note) : note.toUpperCase() }}
 					</div>
 				</div>
 			</div>
@@ -73,14 +73,20 @@
 			</div>
 
 			<div>
-				<label for="scale">Scale Degree Filters:</label>
+				<label for="scale-degrees">Scale Degree Filters:</label>
 
-				<div class="radio-row">
+				<div class="radio-row" name="scale-degrees">
 					<div v-for="(model, index) in scaleDegreeFilters" :key="model.degree" class="radio-wrapper">
 						<label :for="`degree-${model.degree}`" class="radio-label">{{ model.degree }}</label>
 						<input v-model="scaleDegreeFilters[index].value" type="checkbox" :id="`degree-${model.degree}`">
 					</div>
 				</div>
+			</div>
+
+			<div class="input-wrapper">
+				<label>Show Scale Degrees?</label>
+
+				<toggle-switch class="toggle-switch" :is-on="shouldShowScaleDegrees" @toggle="handleScaleDegreeToggle" />
 			</div>
 		</div>
 	</div>
@@ -88,6 +94,9 @@
 
 <script setup>
 	import { ref, computed, watch } from 'vue';
+
+	import ToggleSwitch from './toggle-switch.vue';
+
 	import { tunings } from '../constants/tunings';
 	import { utilities } from '../utilities';
 
@@ -95,6 +104,7 @@
 	const keyOptions = ref(utilities.CHROMATIC_SCALE.slice(0, 12));
 	const selectedScale = ref('major');
 	const selectedStringFilter = ref('none');
+	const shouldShowScaleDegrees = ref(false);
 
 	const activeTuning = computed(() => tunings.standard);
 	const activeScale = computed(() => scaleList.value[selectedScale.value]);
@@ -158,6 +168,12 @@
 		return scale.includes(note.toLowerCase());
 	}
 
+	function scaleDegreeFilter(note) {
+		const targetNote = (scaleDegreeFilters.value || []).find(obj => obj.note.toLowerCase() === note.toLowerCase());
+
+		return targetNote && targetNote.degree;
+	}
+
 	function isStringFiltered(stringRoot) {
 		if (!activeStringFilter.value) return;
 
@@ -183,6 +199,10 @@
 
 	function shouldAddDoubleDot(root, index) {
 		return root === 'E' && index === 11;
+	}
+
+	function handleScaleDegreeToggle() {
+		shouldShowScaleDegrees.value = !shouldShowScaleDegrees.value;
 	}
 </script>
 
@@ -359,5 +379,9 @@
 
 	.radio-label {
 		margin-right: 2px;
+	}
+
+	.toggle-switch {
+		margin-top: 3px;
 	}
 </style>
