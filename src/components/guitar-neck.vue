@@ -106,6 +106,14 @@
 	const selectedStringFilter = ref('none');
 	const shouldShowScaleDegrees = ref(false);
 
+	const stringFilterList = { // assumes 6 string guitar
+		'none': null,
+		'top 3': [0, 1, 2],
+		'2, 3, 4': [1, 2, 3],
+		'3, 4, 5': [2, 3, 4],
+		'bottom 3': [3, 4, 5],
+	};
+
 	const activeTuning = computed(() => tunings.standard);
 	const activeScale = computed(() => scaleList.value[selectedScale.value]);
 	const activeStringFilter = computed(() => stringFilterList[selectedStringFilter.value]);
@@ -149,14 +157,6 @@
 	watch(activeScale, scale => {
 		scaleDegreeFilters.value = setupScaleDegreeModel(scale);
 	});
-
-	const stringFilterList = { // assumes 6 string guitar
-		'none': null,
-		'top 3': [0, 1, 2],
-		'2, 3, 4': [1, 2, 3],
-		'3, 4, 5': [2, 3, 4],
-		'bottom 3': [3, 4, 5],
-	};
 
 	function isRoot(note) {
 		return note.toLowerCase() === activeKey.value;
