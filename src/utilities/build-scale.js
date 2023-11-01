@@ -43,16 +43,16 @@ export function buildMinorScale(root) {
 
 export function buildMajorPentatonicScale(root) {
 	const scale = buildMajorScale(root).slice();
-	scale.splice(6, 1);
-	scale.splice(3, 1);
+	scale.splice(6, 1); // remove 7th scale degree
+	scale.splice(3, 1); // remove 4th scale degree
 
 	return scale;
 }
 
 export function buildMinorPentatonicScale(root) {
 	const scale = buildMinorScale(root).slice();
-	scale.splice(5, 1);
-	scale.splice(1, 1);
+	scale.splice(5, 1); // remove 6th scale degree
+	scale.splice(1, 1); // remove 2nd scale degree
 
 	return scale;
 }
