@@ -4,7 +4,7 @@
 		id="toggleSwitch"
 		role="button"
 		tabindex="0"
-		aria-labelledby="optInLabel toggleSwitch"
+		aria-labelledby="toggleSwitch"
 		@click="!isDisabled && $emit('toggle')"
 		@keydown.space="!isDisabled && $emit('toggle')"
 		@keydown.enter="!isDisabled && $emit('toggle')"
