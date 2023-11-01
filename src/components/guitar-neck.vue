@@ -246,10 +246,7 @@
 			border: 1px solid $red;
 		}
 
-		&.is-filtered {
-			border: 1px solid transparent;
-		}
-
+		&.is-filtered,
 		.is-filtered & {
 			border: 1px solid transparent;
 		}
@@ -345,10 +342,7 @@
 			background-color: $red;
 		}
 
-		&.is-filtered {
-			visibility: hidden;
-		}
-
+		&.is-filtered,
 		.is-filtered & {
 			visibility: hidden;
 		}
