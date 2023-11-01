@@ -14,8 +14,6 @@
 </template>
 
 <script setup>
-  import { defineProps, defineEmits } from 'vue';
-
   defineEmits(['toggle']);
 
   defineProps({
