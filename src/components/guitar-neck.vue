@@ -26,7 +26,7 @@
 							'is-filtered': isNoteFiltered(note),
 						}]"
 					>
-						{{ shouldShowScaleDegrees ? scaleDegreeFilter(note) : note.toUpperCase() }}
+						{{ noteFilter(note) }}
 					</div>
 				</div>
 			</div>
@@ -173,6 +173,18 @@
 		const scale = activeScale.value || [];
 
 		return scale.includes(note.toLowerCase());
+	}
+
+	function noteFilter(note) {
+		if (shouldShowScaleDegrees.value) return scaleDegreeFilter(note);
+
+		if (shouldShowFlats.value) return flatsFilter(note);
+
+		return note.toUpperCase();
+	}
+
+	function flatsFilter(note) {
+		return utilities.convertToFlats(note).toUpperCase();
 	}
 
 	function scaleDegreeFilter(note) {
