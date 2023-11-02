@@ -26,7 +26,7 @@
 							'is-filtered': isNoteFiltered(note),
 						}]"
 					>
-						{{ shouldShowScaleDegrees ? scaleDegreeFilter(note) : note.toUpperCase() }}
+						{{ noteFilter(note) }}
 					</div>
 				</div>
 			</div>
@@ -88,6 +88,12 @@
 
 				<toggle-switch class="toggle-switch" :is-on="shouldShowScaleDegrees" @toggle="handleScaleDegreeToggle" />
 			</div>
+
+			<div class="input-wrapper">
+				<label>Show Flats?</label>
+
+				<toggle-switch class="toggle-switch" :is-on="shouldShowFlats" @toggle="handleFlatsToggle" />
+			</div>
 		</div>
 	</div>
 </template>
@@ -105,6 +111,7 @@
 	const selectedScale = ref('major');
 	const selectedStringFilter = ref('none');
 	const shouldShowScaleDegrees = ref(false);
+	const shouldShowFlats = ref(false);
 
 	const stringFilterList = { // assumes 6 string guitar
 		'none': null,
@@ -168,6 +175,18 @@
 		return scale.includes(note.toLowerCase());
 	}
 
+	function noteFilter(note) {
+		if (shouldShowScaleDegrees.value) return scaleDegreeFilter(note);
+
+		if (shouldShowFlats.value) return flatsFilter(note);
+
+		return note.toUpperCase();
+	}
+
+	function flatsFilter(note) {
+		return utilities.convertToFlats(note).toUpperCase();
+	}
+
 	function scaleDegreeFilter(note) {
 		const targetNote = (scaleDegreeFilters.value || []).find(obj => obj.note.toLowerCase() === note.toLowerCase());
 
@@ -203,6 +222,10 @@
 
 	function handleScaleDegreeToggle() {
 		shouldShowScaleDegrees.value = !shouldShowScaleDegrees.value;
+	}
+
+	function handleFlatsToggle() {
+		shouldShowFlats.value = !shouldShowFlats.value;
 	}
 </script>
 
