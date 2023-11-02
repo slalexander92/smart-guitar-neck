@@ -26,7 +26,7 @@
 							'is-filtered': isNoteFiltered(note),
 						}]"
 					>
-						{{ note.toUpperCase() }}
+						{{ shouldShowScaleDegrees ? scaleDegreeFilter(note) : note.toUpperCase() }}
 					</div>
 				</div>
 			</div>
@@ -73,14 +73,20 @@
 			</div>
 
 			<div>
-				<label for="scale">Scale Degree Filters:</label>
+				<label for="scale-degrees">Scale Degree Filters:</label>
 
-				<div class="radio-row">
+				<div class="radio-row" name="scale-degrees">
 					<div v-for="(model, index) in scaleDegreeFilters" :key="model.degree" class="radio-wrapper">
 						<label :for="`degree-${model.degree}`" class="radio-label">{{ model.degree }}</label>
 						<input v-model="scaleDegreeFilters[index].value" type="checkbox" :id="`degree-${model.degree}`">
 					</div>
 				</div>
+			</div>
+
+			<div class="input-wrapper">
+				<label>Show Scale Degrees?</label>
+
+				<toggle-switch class="toggle-switch" :is-on="shouldShowScaleDegrees" @toggle="handleScaleDegreeToggle" />
 			</div>
 		</div>
 	</div>
@@ -88,6 +94,9 @@
 
 <script setup>
 	import { ref, computed, watch } from 'vue';
+
+	import ToggleSwitch from './toggle-switch.vue';
+
 	import { tunings } from '../constants/tunings';
 	import { utilities } from '../utilities';
 
@@ -95,11 +104,18 @@
 	const keyOptions = ref(utilities.CHROMATIC_SCALE.slice(0, 12));
 	const selectedScale = ref('major');
 	const selectedStringFilter = ref('none');
+	const shouldShowScaleDegrees = ref(false);
+
+	const stringFilterList = { // assumes 6 string guitar
+		'none': null,
+		'top 3': [0, 1, 2],
+		'2, 3, 4': [1, 2, 3],
+		'3, 4, 5': [2, 3, 4],
+		'bottom 3': [3, 4, 5],
+	};
 
 	const activeTuning = computed(() => tunings.standard);
-
 	const activeScale = computed(() => scaleList.value[selectedScale.value]);
-
 	const activeStringFilter = computed(() => stringFilterList[selectedStringFilter.value]);
 
 	const scaleList = computed(() => {
@@ -135,20 +151,12 @@
 			});
 
 			return accum;
-		}, [])
+		}, []);
 	}
 
 	watch(activeScale, scale => {
 		scaleDegreeFilters.value = setupScaleDegreeModel(scale);
 	});
-
-	const stringFilterList = { // assumes 6 string guitar
-		'none': null,
-		'top 3': [0, 1, 2],
-		'2, 3, 4': [1, 2, 3],
-		'3, 4, 5': [2, 3, 4],
-		'bottom 3': [3, 4, 5],
-	};
 
 	function isRoot(note) {
 		return note.toLowerCase() === activeKey.value;
@@ -158,6 +166,12 @@
 		const scale = activeScale.value || [];
 
 		return scale.includes(note.toLowerCase());
+	}
+
+	function scaleDegreeFilter(note) {
+		const targetNote = (scaleDegreeFilters.value || []).find(obj => obj.note.toLowerCase() === note.toLowerCase());
+
+		return targetNote && targetNote.degree;
 	}
 
 	function isStringFiltered(stringRoot) {
@@ -186,9 +200,13 @@
 	function shouldAddDoubleDot(root, index) {
 		return root === 'E' && index === 11;
 	}
+
+	function handleScaleDegreeToggle() {
+		shouldShowScaleDegrees.value = !shouldShowScaleDegrees.value;
+	}
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 	$blue: #0e31a9;
 	$red: #d40606;
 
@@ -228,10 +246,7 @@
 			border: 1px solid $red;
 		}
 
-		&.is-filtered {
-			border: 1px solid transparent;
-		}
-
+		&.is-filtered,
 		.is-filtered & {
 			border: 1px solid transparent;
 		}
@@ -240,7 +255,6 @@
 	.string {
 		position: relative;
 		display: flex;
-		padding-bottom: 2px;
 
 		&::after {
 			content: '';
@@ -262,6 +276,7 @@
 		height: 100%;
 		padding-left: 12px;
 		padding-right: 12px;
+		padding-bottom: 2px;
 
 		&.should-add-dot {
 			&::before {
@@ -327,10 +342,7 @@
 			background-color: $red;
 		}
 
-		&.is-filtered {
-			visibility: hidden;
-		}
-
+		&.is-filtered,
 		.is-filtered & {
 			visibility: hidden;
 		}
@@ -361,5 +373,9 @@
 
 	.radio-label {
 		margin-right: 2px;
+	}
+
+	.toggle-switch {
+		margin-top: 3px;
 	}
 </style>
