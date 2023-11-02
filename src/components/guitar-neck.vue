@@ -88,6 +88,12 @@
 
 				<toggle-switch class="toggle-switch" :is-on="shouldShowScaleDegrees" @toggle="handleScaleDegreeToggle" />
 			</div>
+
+			<div class="input-wrapper">
+				<label>Show Flats?</label>
+
+				<toggle-switch class="toggle-switch" :is-on="shouldShowFlats" @toggle="handleFlatsToggle" />
+			</div>
 		</div>
 	</div>
 </template>
@@ -105,6 +111,7 @@
 	const selectedScale = ref('major');
 	const selectedStringFilter = ref('none');
 	const shouldShowScaleDegrees = ref(false);
+	const shouldShowFlats = ref(false);
 
 	const stringFilterList = { // assumes 6 string guitar
 		'none': null,
@@ -203,6 +210,10 @@
 
 	function handleScaleDegreeToggle() {
 		shouldShowScaleDegrees.value = !shouldShowScaleDegrees.value;
+	}
+
+	function handleFlatsToggle() {
+		shouldShowFlats.value = !shouldShowFlats.value;
 	}
 </script>
 
