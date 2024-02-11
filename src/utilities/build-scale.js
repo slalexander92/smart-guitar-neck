@@ -56,3 +56,11 @@ export function buildMinorPentatonicScale(root) {
 
 	return scale;
 }
+
+function getFlattedNote(note) {
+	const indexOfNote = CHROMATIC_SCALE.indexOf(note);
+
+	if (indexOfNote === 0) return CHROMATIC_SCALE[CHROMATIC_SCALE.length - 1];
+
+	return CHROMATIC_SCALE[indexOfNote - 1];
+}
