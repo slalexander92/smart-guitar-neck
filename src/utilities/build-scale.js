@@ -7,6 +7,7 @@ export const MAJOR_SCALE_DEGREES = ['1', '2', '3', '4', '5', '6', '7'];
 export const MINOR_SCALE_DEGREES = ['1', '2', '♭3', '4', '5', '♭6', '♭7'];
 export const MAJOR_PENTATONIC_SCALE_DEGREES = ['1', '2', '3', '5', '6'];
 export const MINOR_PENTATONIC_SCALE_DEGREES = ['1', '♭3', '4', '5', '♭7'];
+export const MIXOLYDIAN_SCALE_DEGREES = ['1', '2', '3', '4', '5', '6', '♭7'];
 
 export function buildMajorScale(root) {
 	const scale = [];
@@ -53,6 +54,16 @@ export function buildMinorPentatonicScale(root) {
 	const scale = buildMinorScale(root).slice();
 	scale.splice(5, 1); // remove 6th scale degree
 	scale.splice(1, 1); // remove 2nd scale degree
+
+	return scale;
+}
+
+export function buildMixolydianScale(root) {
+	const scale = buildMajorScale(root).slice();
+	const seventhScaleDegreeNote = scale[6];
+	const flattedSeventh = getFlattedNote(seventhScaleDegreeNote);
+	scale.push(flattedSeventh); // add flatted seventh
+	scale.splice(6, 1); // remove natural seven
 
 	return scale;
 }

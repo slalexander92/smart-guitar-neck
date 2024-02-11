@@ -131,6 +131,7 @@
 			'minor': utilities.buildMinorScale(activeKey.value),
 			'major pentatonic': utilities.buildMajorPentatonicScale(activeKey.value),
 			'minor pentatonic': utilities.buildMinorPentatonicScale(activeKey.value),
+			'mixolydian': utilities.buildMixolydianScale(activeKey.value),
 		};
 	});
 
@@ -142,6 +143,7 @@
 			'minor': utilities.MINOR_SCALE_DEGREES,
 			'major pentatonic': utilities.MAJOR_PENTATONIC_SCALE_DEGREES,
 			'minor pentatonic': utilities.MINOR_PENTATONIC_SCALE_DEGREES,
+			'mixolydian': utilities.MIXOLYDIAN_SCALE_DEGREES,
 		};
 
 		const activeScaleDegrees = scaleDegreeMap[selectedScale.value];
